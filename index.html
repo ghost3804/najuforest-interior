@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>나주숲교회 인테리어 현황</title>
+<meta name="description" content="나주숲교회 공간 인테리어 진행 현황 사진 — 자모실, 교역자실·직무실, 교육부실, 외부 사인물">
+<meta property="og:title" content="나주숲교회 인테리어 현황">
+<meta property="og:description" content="우리 교회 공간이 이렇게 준비되고 있습니다.">
+<meta property="og:image" content="images/11.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f6f3ec; --surface:#fffdf8; --ink:#1f2a24; --muted:#5f6b63;
+    --forest:#2f6b5a; --forest-soft:#dfece6; --line:#e3ddd0; --accent:#b8864b;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#141a17; --surface:#1c241f; --ink:#ece8df; --muted:#a3ada6;
+      --forest:#7cc2a8; --forest-soft:#22352d; --line:#2c3731; --accent:#d9aa6e; color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#141a17; --surface:#1c241f; --ink:#ece8df; --muted:#a3ada6;
+    --forest:#7cc2a8; --forest-soft:#22352d; --line:#2c3731; --accent:#d9aa6e; color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+  .grid figure:focus-visible{outline:2px solid var(--forest);outline-offset:2px}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.grid img{transition:none}}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Noto Sans KR",system-ui,sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+  header.hero{padding:64px 0 36px;text-align:center}
+  .badge{display:inline-block;font-size:13px;letter-spacing:.08em;color:var(--forest);
+    background:var(--forest-soft);padding:5px 14px;border-radius:999px;font-weight:500}
+  h1{font-family:"Gowun Batang",serif;font-weight:700;font-size:clamp(30px,6vw,46px);
+    margin:18px 0 10px;letter-spacing:-.01em}
+  .lead{color:var(--muted);font-size:clamp(15px,2.4vw,17px);margin:0 auto;max-width:560px}
+  .date{margin-top:14px;font-size:13px;color:var(--muted)}
+
+  nav.toc{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  nav.toc .wrap{display:flex;gap:8px;overflow-x:auto;padding-top:10px;padding-bottom:10px;scrollbar-width:none}
+  nav.toc a{flex:0 0 auto;text-decoration:none;color:var(--ink);font-size:14px;
+    padding:6px 14px;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
+  nav.toc a:hover{border-color:var(--forest);color:var(--forest)}
+
+  section.room{padding:48px 0 8px}
+  .room-head{display:flex;align-items:baseline;gap:12px;margin-bottom:18px;
+    border-bottom:1px solid var(--line);padding-bottom:12px}
+  .num{font-family:"Gowun Batang",serif;color:var(--accent);font-size:15px;font-weight:700}
+  h2{font-family:"Gowun Batang",serif;font-size:clamp(22px,4vw,28px);margin:0;font-weight:700}
+  .count{margin-left:auto;font-size:13px;color:var(--muted)}
+
+  .grid{display:grid;gap:12px;grid-template-columns:repeat(2,1fr)}
+  .grid figure{margin:0;border-radius:12px;overflow:hidden;background:var(--surface);
+    border:1px solid var(--line);cursor:zoom-in;position:relative}
+  .grid img{display:block;width:100%;height:100%;object-fit:cover;aspect-ratio:16/9;transition:transform .35s ease}
+  .grid figure:hover img{transform:scale(1.03)}
+  .grid figure.tall img{aspect-ratio:auto}
+  .grid figure.wide{grid-column:1/-1}
+  .grid.mixed{grid-template-columns:repeat(4,1fr)}
+  .grid.mixed figure.wide{grid-column:span 4}
+  .grid.mixed figure.half{grid-column:span 2}
+  .grid.mixed figure.tall{grid-column:span 1}
+  .grid.mixed figure.tall img{aspect-ratio:832/1800}
+  @media (max-width:640px){
+    .grid,.grid.mixed{grid-template-columns:1fr 1fr}
+    .grid figure,.grid.mixed figure.half,.grid.mixed figure.wide{grid-column:1/-1}
+    .grid.mixed figure.tall{grid-column:span 1}
+  }
+
+  footer{padding:56px 0 64px;text-align:center;color:var(--muted);font-size:14px}
+  footer .verse{font-family:"Gowun Batang",serif;color:var(--ink);font-size:17px;margin-bottom:8px}
+  footer a{color:var(--forest)}
+
+  .lb{position:fixed;inset:0;background:rgba(10,14,12,.94);display:none;align-items:center;
+    justify-content:center;z-index:50;padding:16px}
+  .lb.open{display:flex}
+  .lb img{max-width:100%;max-height:86vh;border-radius:8px;box-shadow:0 10px 40px rgba(0,0,0,.5)}
+  .lb .cap{position:absolute;bottom:18px;left:0;right:0;text-align:center;color:#e8e4da;font-size:14px}
+  .lb button{position:absolute;background:rgba(255,255,255,.12);color:#fff;border:0;width:44px;height:44px;
+    border-radius:50%;font-size:22px;cursor:pointer}
+  .lb .x{top:16px;right:16px}
+  .lb .prev{left:12px;top:50%;transform:translateY(-50%)}
+  .lb .next{right:12px;top:50%;transform:translateY(-50%)}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="badge">공사 진행 현황</span>
+    <h1>나주숲교회 인테리어</h1>
+    <p class="lead">성도님들과 함께 기도하며 준비해 온 우리 교회 공간이<br>하나씩 모습을 갖춰 가고 있습니다.</p>
+    <p class="date">2026년 10월 23일 촬영</p>
+  </div>
+</header>
+
+<nav class="toc">
+  <div class="wrap">
+    <a href="#jamo">자모실</a>
+    <a href="#staff">교역자실 · 직무실</a>
+    <a href="#edu">교육부실</a>
+    <a href="#sign">외부 사인물</a>
+  </div>
+</nav>
+
+<main class="wrap">
+  <section class="room" id="jamo">
+    <div class="room-head"><span class="num">01</span><h2>자모실</h2><span class="count">사진 4장</span></div>
+    <div class="grid mixed">
+      <figure class="half"><img src="images/01.jpg" alt="자모실 1" loading="lazy"></figure>
+      <figure class="half"><img src="images/04.jpg" alt="자모실 4" loading="lazy"></figure>
+      <figure class="tall"><img src="images/02.jpg" alt="자모실 2" loading="lazy"></figure>
+      <figure class="tall"><img src="images/03.jpg" alt="자모실 3" loading="lazy"></figure>
+    </div>
+  </section>
+
+  <section class="room" id="staff">
+    <div class="room-head"><span class="num">02</span><h2>교역자실 · 직무실</h2><span class="count">사진 4장</span></div>
+    <div class="grid">
+      <figure><img src="images/05.jpg" alt="교역자실 및 직무실 1" loading="lazy"></figure>
+      <figure><img src="images/06.jpg" alt="교역자실 및 직무실 2" loading="lazy"></figure>
+      <figure><img src="images/07.jpg" alt="교역자실 및 직무실 3" loading="lazy"></figure>
+      <figure><img src="images/08.jpg" alt="교역자실 및 직무실 4" loading="lazy"></figure>
+    </div>
+  </section>
+
+  <section class="room" id="edu">
+    <div class="room-head"><span class="num">03</span><h2>교육부실</h2><span class="count">사진 2장</span></div>
+    <div class="grid">
+      <figure><img src="images/09.jpg" alt="교육부실 1" loading="lazy"></figure>
+      <figure><img src="images/10.jpg" alt="교육부실 2" loading="lazy"></figure>
+    </div>
+  </section>
+
+  <section class="room" id="sign">
+    <div class="room-head"><span class="num">04</span><h2>외부 사인물</h2><span class="count">사진 1장</span></div>
+    <div class="grid">
+      <figure class="wide"><img src="images/11.jpg" alt="외부 사인물 설치" loading="lazy"></figure>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="verse">There's a place for you here.<br>당신을 위해 준비된 공간</div>
+    <div>나주숲교회 · <a href="https://najuforest.org" target="_blank" rel="noopener">najuforest.org</a></div>
+  </div>
+</footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true">
+  <button class="x" aria-label="닫기">×</button>
+  <button class="prev" aria-label="이전">‹</button>
+  <img alt="">
+  <button class="next" aria-label="다음">›</button>
+  <div class="cap"></div>
+</div>
+
+<script>
+  const figs=[...document.querySelectorAll('.grid img')];
+  const lb=document.getElementById('lb'),img=lb.querySelector('img'),cap=lb.querySelector('.cap');
+  let i=0;
+  const show=n=>{i=(n+figs.length)%figs.length;img.src=figs[i].src;cap.textContent=figs[i].alt;lb.classList.add('open')};
+  figs.forEach((f,n)=>f.parentElement.addEventListener('click',()=>show(n)));
+  lb.querySelector('.x').onclick=()=>lb.classList.remove('open');
+  lb.querySelector('.prev').onclick=e=>{e.stopPropagation();show(i-1)};
+  lb.querySelector('.next').onclick=e=>{e.stopPropagation();show(i+1)};
+  lb.addEventListener('click',e=>{if(e.target===lb)lb.classList.remove('open')});
+  document.addEventListener('keydown',e=>{if(!lb.classList.contains('open'))return;
+    if(e.key==='Escape')lb.classList.remove('open');if(e.key==='ArrowLeft')show(i-1);if(e.key==='ArrowRight')show(i+1)});
+  let sx=0;lb.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
+  lb.addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-sx;if(Math.abs(d)>50)show(d<0?i+1:i-1)});
+</script>
+</body>
+</html>
