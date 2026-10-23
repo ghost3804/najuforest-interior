@@ -7,7 +7,7 @@
 <meta name="description" content="나주숲교회 공간 인테리어 진행 현황 사진 — 자모실, 교역자실·직무실, 교육부실, 외부 사인물">
 <meta property="og:title" content="나주숲교회 인테리어 현황">
 <meta property="og:description" content="우리 교회 공간이 이렇게 준비되고 있습니다.">
-<meta property="og:image" content="images/11.jpg">
+<meta property="og:image" content="images/s1.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
@@ -75,6 +75,10 @@
     .grid.mixed figure.tall{grid-column:span 1}
   }
 
+  .grid.sign{grid-template-columns:1.067fr .462fr}
+  .grid.sign figure img{aspect-ratio:auto;height:100%}
+  .grid.sign figure.wide{grid-column:1/-1}
+  @media (max-width:640px){.grid.sign figure:not(.wide){grid-column:auto}}
   footer{padding:56px 0 64px;text-align:center;color:var(--muted);font-size:14px}
   footer .verse{font-family:"Gowun Batang",serif;color:var(--ink);font-size:17px;margin-bottom:8px}
   footer a{color:var(--forest)}
@@ -104,16 +108,25 @@
 
 <nav class="toc">
   <div class="wrap">
+    <a href="#exterior">외부 사인물</a>
     <a href="#jamo">자모실</a>
     <a href="#staff">교역자실 · 직무실</a>
     <a href="#edu">교육부실</a>
-    <a href="#sign">외부 사인물</a>
+    <a href="#sign">설치 현장</a>
   </div>
 </nav>
 
 <main class="wrap">
+  <section class="room" id="exterior">
+    <div class="room-head"><span class="num">01</span><h2>나주숲교회 외부 사인물</h2><span class="count">사진 3장</span></div>
+    <div class="grid sign">
+      <figure><img src="images/s1.jpg" alt="나주숲교회 건물 전경과 외부 사인물" loading="lazy"></figure>
+      <figure><img src="images/s3.jpg" alt="교회 출입문 사인 — Everyone is Welcome Here" loading="lazy"></figure>
+      <figure class="wide"><img src="images/s2.jpg" alt="건물 측면 사인물 설치 작업" loading="lazy"></figure>
+    </div>
+  </section>
   <section class="room" id="jamo">
-    <div class="room-head"><span class="num">01</span><h2>자모실</h2><span class="count">사진 4장</span></div>
+    <div class="room-head"><span class="num">02</span><h2>자모실</h2><span class="count">사진 4장</span></div>
     <div class="grid mixed">
       <figure class="half"><img src="images/01.jpg" alt="자모실 1" loading="lazy"></figure>
       <figure class="half"><img src="images/04.jpg" alt="자모실 4" loading="lazy"></figure>
@@ -123,7 +136,7 @@
   </section>
 
   <section class="room" id="staff">
-    <div class="room-head"><span class="num">02</span><h2>교역자실 · 직무실</h2><span class="count">사진 4장</span></div>
+    <div class="room-head"><span class="num">03</span><h2>교역자실 · 직무실</h2><span class="count">사진 4장</span></div>
     <div class="grid">
       <figure><img src="images/05.jpg" alt="교역자실 및 직무실 1" loading="lazy"></figure>
       <figure><img src="images/06.jpg" alt="교역자실 및 직무실 2" loading="lazy"></figure>
@@ -133,7 +146,7 @@
   </section>
 
   <section class="room" id="edu">
-    <div class="room-head"><span class="num">03</span><h2>교육부실</h2><span class="count">사진 2장</span></div>
+    <div class="room-head"><span class="num">04</span><h2>교육부실</h2><span class="count">사진 2장</span></div>
     <div class="grid">
       <figure><img src="images/09.jpg" alt="교육부실 1" loading="lazy"></figure>
       <figure><img src="images/10.jpg" alt="교육부실 2" loading="lazy"></figure>
@@ -141,7 +154,7 @@
   </section>
 
   <section class="room" id="sign">
-    <div class="room-head"><span class="num">04</span><h2>외부 사인물</h2><span class="count">사진 1장</span></div>
+    <div class="room-head"><span class="num">05</span><h2>외부 사인물 설치 현장</h2><span class="count">사진 1장</span></div>
     <div class="grid">
       <figure class="wide"><img src="images/11.jpg" alt="외부 사인물 설치" loading="lazy"></figure>
     </div>
