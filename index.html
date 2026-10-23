@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>나주숲교회 인테리어 현황</title>
-<meta name="description" content="나주숲교회 공간 인테리어 진행 현황 사진 — 자모실, 교역자실·직무실, 교육부실, 외부 사인물">
+<meta name="description" content="나주숲교회 공간 인테리어 진행 현황을 날짜별 사진으로 나눕니다">
 <meta property="og:title" content="나주숲교회 인테리어 현황">
 <meta property="og:description" content="우리 교회 공간이 이렇게 준비되고 있습니다.">
 <meta property="og:image" content="images/s1.jpg">
@@ -28,8 +28,7 @@
   }
   *{box-sizing:border-box}
   body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
-  .grid figure:focus-visible{outline:2px solid var(--forest);outline-offset:2px}
-  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.grid img{transition:none}}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
   html{scroll-behavior:smooth}
   body{margin:0;background:var(--bg);color:var(--ink);
     font-family:"Noto Sans KR",system-ui,sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
@@ -57,28 +56,28 @@
   h2{font-family:"Gowun Batang",serif;font-size:clamp(22px,4vw,28px);margin:0;font-weight:700}
   .count{margin-left:auto;font-size:13px;color:var(--muted)}
 
-  .grid{display:grid;gap:12px;grid-template-columns:repeat(2,1fr)}
-  .grid figure{margin:0;border-radius:12px;overflow:hidden;background:var(--surface);
-    border:1px solid var(--line);cursor:zoom-in;position:relative}
-  .grid img{display:block;width:100%;height:100%;object-fit:cover;aspect-ratio:16/9;transition:transform .35s ease}
-  .grid figure:hover img{transform:scale(1.03)}
-  .grid figure.tall img{aspect-ratio:auto}
-  .grid figure.wide{grid-column:1/-1}
-  .grid.mixed{grid-template-columns:repeat(4,1fr)}
-  .grid.mixed figure.wide{grid-column:span 4}
-  .grid.mixed figure.half{grid-column:span 2}
-  .grid.mixed figure.tall{grid-column:span 1}
-  .grid.mixed figure.tall img{aspect-ratio:832/1800}
+  .rows{display:flex;flex-direction:column;gap:12px}
+  .row{display:flex;gap:12px;margin-inline:auto;width:min(100%, calc(var(--sum) * 520px))}
+  .row figure{flex:var(--r) 1 0;aspect-ratio:var(--r);min-width:0;max-width:100%;margin:0;border-radius:12px;
+    overflow:hidden;background:var(--surface);border:1px solid var(--line);cursor:zoom-in}
+  .row img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .35s ease}
+  .row figure:hover img{transform:scale(1.03)}
+  .row figure:focus-visible{outline:2px solid var(--forest);outline-offset:2px}
   @media (max-width:640px){
-    .grid,.grid.mixed{grid-template-columns:1fr 1fr}
-    .grid figure,.grid.mixed figure.half,.grid.mixed figure.wide{grid-column:1/-1}
-    .grid.mixed figure.tall{grid-column:span 1}
+    .row.land{flex-wrap:wrap}
+    .row.land figure{flex-basis:100%}
   }
+  @media (prefers-reduced-motion:reduce){.row img{transition:none}}
 
-  .grid.sign{grid-template-columns:1.067fr .462fr}
-  .grid.sign figure img{aspect-ratio:auto;height:100%}
-  .grid.sign figure.wide{grid-column:1/-1}
-  @media (max-width:640px){.grid.sign figure:not(.wide){grid-column:auto}}
+  nav.tabs a{display:flex;flex-direction:column;align-items:center;line-height:1.3;padding:7px 16px;border-radius:12px}
+  nav.tabs a .d{font-weight:700;font-size:15px;font-variant-numeric:tabular-nums}
+  nav.tabs a .c{font-size:12px;color:var(--muted)}
+  nav.tabs a[aria-selected="true"]{background:var(--forest);border-color:var(--forest);color:var(--bg)}
+  nav.tabs a[aria-selected="true"] .c{color:var(--forest-soft)}
+  .day-head{padding-top:36px;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px}
+  .day-head h2{font-size:clamp(24px,4.5vw,32px)}
+  .day-head p{margin:0;color:var(--muted);font-size:14px}
+  .new{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--accent);margin-top:2px}
   footer{padding:56px 0 64px;text-align:center;color:var(--muted);font-size:14px}
   footer .verse{font-family:"Gowun Batang",serif;color:var(--ink);font-size:17px;margin-bottom:8px}
   footer a{color:var(--forest)}
@@ -102,64 +101,15 @@
     <span class="badge">공사 진행 현황</span>
     <h1>나주숲교회 인테리어</h1>
     <p class="lead">성도님들과 함께 기도하며 준비해 온 우리 교회 공간이<br>하나씩 모습을 갖춰 가고 있습니다.</p>
-    <p class="date">2026년 10월 23일 촬영</p>
+    <p class="date" id="latest"></p>
   </div>
 </header>
 
-<nav class="toc">
-  <div class="wrap">
-    <a href="#exterior">외부 사인물</a>
-    <a href="#jamo">자모실</a>
-    <a href="#staff">교역자실 · 직무실</a>
-    <a href="#edu">교육부실</a>
-    <a href="#sign">설치 현장</a>
-  </div>
+<nav class="toc tabs" aria-label="날짜별 보기">
+  <div class="wrap" id="tabs" role="tablist"></div>
 </nav>
 
-<main class="wrap">
-  <section class="room" id="exterior">
-    <div class="room-head"><span class="num">01</span><h2>나주숲교회 외부 사인물</h2><span class="count">사진 3장</span></div>
-    <div class="grid sign">
-      <figure><img src="images/s1.jpg" alt="나주숲교회 건물 전경과 외부 사인물" loading="lazy"></figure>
-      <figure><img src="images/s3.jpg" alt="교회 출입문 사인 — Everyone is Welcome Here" loading="lazy"></figure>
-      <figure class="wide"><img src="images/s2.jpg" alt="건물 측면 사인물 설치 작업" loading="lazy"></figure>
-    </div>
-  </section>
-  <section class="room" id="jamo">
-    <div class="room-head"><span class="num">02</span><h2>자모실</h2><span class="count">사진 4장</span></div>
-    <div class="grid mixed">
-      <figure class="half"><img src="images/01.jpg" alt="자모실 1" loading="lazy"></figure>
-      <figure class="half"><img src="images/04.jpg" alt="자모실 4" loading="lazy"></figure>
-      <figure class="tall"><img src="images/02.jpg" alt="자모실 2" loading="lazy"></figure>
-      <figure class="tall"><img src="images/03.jpg" alt="자모실 3" loading="lazy"></figure>
-    </div>
-  </section>
-
-  <section class="room" id="staff">
-    <div class="room-head"><span class="num">03</span><h2>교역자실 · 직무실</h2><span class="count">사진 4장</span></div>
-    <div class="grid">
-      <figure><img src="images/05.jpg" alt="교역자실 및 직무실 1" loading="lazy"></figure>
-      <figure><img src="images/06.jpg" alt="교역자실 및 직무실 2" loading="lazy"></figure>
-      <figure><img src="images/07.jpg" alt="교역자실 및 직무실 3" loading="lazy"></figure>
-      <figure><img src="images/08.jpg" alt="교역자실 및 직무실 4" loading="lazy"></figure>
-    </div>
-  </section>
-
-  <section class="room" id="edu">
-    <div class="room-head"><span class="num">04</span><h2>교육부실</h2><span class="count">사진 2장</span></div>
-    <div class="grid">
-      <figure><img src="images/09.jpg" alt="교육부실 1" loading="lazy"></figure>
-      <figure><img src="images/10.jpg" alt="교육부실 2" loading="lazy"></figure>
-    </div>
-  </section>
-
-  <section class="room" id="sign">
-    <div class="room-head"><span class="num">05</span><h2>외부 사인물 설치 현장</h2><span class="count">사진 1장</span></div>
-    <div class="grid">
-      <figure class="wide"><img src="images/11.jpg" alt="외부 사인물 설치" loading="lazy"></figure>
-    </div>
-  </section>
-</main>
+<main class="wrap" id="day"></main>
 
 <footer>
   <div class="wrap">
@@ -177,19 +127,79 @@
 </div>
 
 <script>
-  const figs=[...document.querySelectorAll('.grid img')];
-  const lb=document.getElementById('lb'),img=lb.querySelector('img'),cap=lb.querySelector('.cap');
-  let i=0;
-  const show=n=>{i=(n+figs.length)%figs.length;img.src=figs[i].src;cap.textContent=figs[i].alt;lb.classList.add('open')};
-  figs.forEach((f,n)=>f.parentElement.addEventListener('click',()=>show(n)));
-  lb.querySelector('.x').onclick=()=>lb.classList.remove('open');
-  lb.querySelector('.prev').onclick=e=>{e.stopPropagation();show(i-1)};
-  lb.querySelector('.next').onclick=e=>{e.stopPropagation();show(i+1)};
-  lb.addEventListener('click',e=>{if(e.target===lb)lb.classList.remove('open')});
-  document.addEventListener('keydown',e=>{if(!lb.classList.contains('open'))return;
-    if(e.key==='Escape')lb.classList.remove('open');if(e.key==='ArrowLeft')show(i-1);if(e.key==='ArrowRight')show(i+1)});
-  let sx=0;lb.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
-  lb.addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-sx;if(Math.abs(d)>50)show(d<0?i+1:i-1)});
+/* ───────── 날짜별 사진 데이터 ─────────
+   새 날짜는 이 목록 맨 아래에 추가합니다 (오래된 날 → 최근 날 순서).
+   rows: 한 줄에 함께 놓을 사진 묶음. [파일, 가로, 세로, 설명]          */
+const UPDATES = [
+  { date: "2026-10-23", note: "공간별 마감 진행 및 외부 사인물 설치",
+    rooms: [
+      { name: "나주숲교회 외부 사인물", rows: [
+        [["images/s1.jpg",1079,1011,"건물 전경과 외부 사인물"], ["images/s3.jpg",832,1800,"출입문 사인 — Everyone is Welcome Here"]],
+        [["images/s2.jpg",1800,832,"건물 측면 사인물 설치 작업"], ["images/11.jpg",1800,832,"사인물 패널 설치 현장"]] ]},
+      { name: "자모실", rows: [
+        [["images/01.jpg",1800,832,"자모실 1"], ["images/04.jpg",1800,832,"자모실 2"]],
+        [["images/02.jpg",832,1800,"자모실 3"], ["images/03.jpg",832,1800,"자모실 4"]] ]},
+      { name: "교역자실 · 직무실", rows: [
+        [["images/05.jpg",1800,832,"교역자실 · 직무실 1"], ["images/06.jpg",1800,832,"교역자실 · 직무실 2"]],
+        [["images/07.jpg",1800,832,"교역자실 · 직무실 3"], ["images/08.jpg",1800,832,"교역자실 · 직무실 4"]] ]},
+      { name: "교육부실", rows: [
+        [["images/09.jpg",1800,832,"교육부실 1"], ["images/10.jpg",1800,832,"교육부실 2"]] ]}
+    ]}
+];
+
+const WD = ["일","월","화","수","목","금","토"];
+const fmt = (iso, long) => { const [y,m,d] = iso.split("-").map(Number); const w = WD[new Date(y,m-1,d).getDay()];
+  return long ? `${y}년 ${m}월 ${d}일 (${w})` : `${m}.${String(d).padStart(2,"0")} (${w})`; };
+const count = u => u.rooms.reduce((a,r)=>a+r.rows.flat().length,0);
+const tabs = document.getElementById("tabs"), day = document.getElementById("day");
+const latest = UPDATES[UPDATES.length-1];
+document.getElementById("latest").textContent = `최근 업데이트 · ${fmt(latest.date,true)}`;
+
+UPDATES.forEach(u => {
+  const a = document.createElement("a");
+  a.href = "#" + u.date; a.setAttribute("role","tab"); a.dataset.date = u.date;
+  a.innerHTML = `<span class="d">${fmt(u.date)}</span><span class="c">사진 ${count(u)}장</span>` + (u===latest?`<span class="new">NEW</span>`:"");
+  a.addEventListener("click", e => { e.preventDefault(); render(u.date, true); });
+  tabs.appendChild(a);
+});
+
+let figs = [];
+function render(date, scroll){
+  const u = UPDATES.find(x=>x.date===date) || latest;
+  [...tabs.children].forEach(t => t.setAttribute("aria-selected", t.dataset.date===u.date));
+  tabs.querySelector('[aria-selected="true"]').scrollIntoView({inline:"center",block:"nearest"});
+  try { history.replaceState(null,"","#"+u.date); } catch(e){}
+  let h = `<div class="day-head"><h2>${fmt(u.date,true)}</h2>${u.note?`<p>${u.note}</p>`:""}</div>`;
+  u.rooms.forEach((r,ri) => {
+    const n = r.rows.flat().length;
+    h += `<section class="room"><div class="room-head"><span class="num">${String(ri+1).padStart(2,"0")}</span><h2>${r.name}</h2><span class="count">사진 ${n}장</span></div><div class="rows">`;
+    r.rows.forEach(row => {
+      const rs = row.map(([,w,hh]) => w/hh), sum = rs.reduce((a,b)=>a+b,0);
+      const land = rs.every(x => x > 1.3) && row.length > 1;
+      h += `<div class="row${land?" land":""}" style="--sum:${sum.toFixed(3)}">` +
+        row.map(([src,,,alt],k)=>`<figure tabindex="0" style="--r:${rs[k].toFixed(3)}"><img src="${src}" alt="${alt}" loading="lazy"></figure>`).join("") + `</div>`;
+    });
+    h += `</div></section>`;
+  });
+  day.innerHTML = h;
+  figs = [...day.querySelectorAll("figure img")];
+  figs.forEach((f,n) => { const p=f.parentElement; p.addEventListener("click",()=>show(n));
+    p.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); show(n);} }); });
+  if (scroll) document.querySelector("nav.tabs").scrollIntoView({block:"start"});
+}
+render(decodeURIComponent(location.hash.slice(1)), false);
+
+const lb=document.getElementById('lb'),img=lb.querySelector('img'),cap=lb.querySelector('.cap');
+let i=0;
+const show=n=>{i=(n+figs.length)%figs.length;img.src=figs[i].src;cap.textContent=figs[i].alt;lb.classList.add('open')};
+lb.querySelector('.x').onclick=()=>lb.classList.remove('open');
+lb.querySelector('.prev').onclick=e=>{e.stopPropagation();show(i-1)};
+lb.querySelector('.next').onclick=e=>{e.stopPropagation();show(i+1)};
+lb.addEventListener('click',e=>{if(e.target===lb)lb.classList.remove('open')});
+document.addEventListener('keydown',e=>{if(!lb.classList.contains('open'))return;
+  if(e.key==='Escape')lb.classList.remove('open');if(e.key==='ArrowLeft')show(i-1);if(e.key==='ArrowRight')show(i+1)});
+let sx=0;lb.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
+lb.addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-sx;if(Math.abs(d)>50)show(d<0?i+1:i-1)});
 </script>
 </body>
 </html>
