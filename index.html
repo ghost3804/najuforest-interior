@@ -78,6 +78,28 @@
   .day-head h2{font-size:clamp(24px,4.5vw,32px)}
   .day-head p{margin:0;color:var(--muted);font-size:14px}
   .new{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--accent);margin-top:2px}
+  .hands{margin-top:64px;padding-block:56px;background:var(--forest-soft)}
+  .hands-head{max-width:600px;margin-bottom:28px}
+  .eyebrow{margin:0;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--forest);font-weight:700}
+  .hands-head h2{font-size:clamp(24px,4.5vw,32px);margin:6px 0 8px;text-wrap:balance}
+  .hands-lead{margin:0;color:var(--muted);font-size:15px}
+  .hand-list{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr))}
+  .hand{display:flex;gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;align-items:stretch}
+  .hand img{width:104px;aspect-ratio:4/5;object-fit:cover;border-radius:10px;cursor:zoom-in;flex:0 0 auto}
+  .hand-body{min-width:0;display:flex;flex-direction:column;gap:6px;justify-content:center}
+  .hand-name{font-family:"Gowun Batang",serif;font-weight:700;font-size:20px;line-height:1.3}
+  .hand-role{font-size:13px;color:var(--forest);font-weight:500}
+  .hand-note{font-family:"Gowun Batang",serif;font-size:15px;color:var(--ink)}
+  .hand-note::before{content:"“"}.hand-note::after{content:"”"}
+  .hand-dates{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+  .hand-dates a{font-size:12px;color:var(--muted);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:1px 9px;font-variant-numeric:tabular-nums}
+  .hand-dates a:hover{color:var(--forest);border-color:var(--forest)}
+  .show{padding-top:32px}
+  .show-link{display:flex;flex-direction:column;gap:2px;text-decoration:none;color:var(--ink);border:1px solid var(--line);
+    background:var(--surface);border-radius:14px;padding:18px 20px}
+  .show-link:hover{border-color:var(--forest)}
+  .show-k{font-size:12px;letter-spacing:.08em;color:var(--accent);font-weight:700}
+  .show-t{font-family:"Gowun Batang",serif;font-size:19px;font-weight:700}
   footer{padding:56px 0 64px;text-align:center;color:var(--muted);font-size:14px}
   footer .verse{font-family:"Gowun Batang",serif;color:var(--ink);font-size:17px;margin-bottom:8px}
   footer a{color:var(--forest)}
@@ -111,6 +133,26 @@
 
 <main class="wrap" id="day"></main>
 
+<section class="hands" aria-labelledby="hands-title">
+  <div class="wrap">
+    <div class="hands-head">
+      <p class="eyebrow">Thanks to</p>
+      <h2 id="hands-title">함께 세워 가는 손길</h2>
+      <p class="hands-lead">이 공간에는 묵묵히 땀 흘려 주신 분들의 시간이 담겨 있습니다. 감사한 마음으로 한 분 한 분 기록합니다.</p>
+    </div>
+    <div class="hand-list" id="hands"></div>
+  </div>
+</section>
+
+<section class="show">
+  <div class="wrap">
+    <a class="show-link" href="slides.html">
+      <span class="show-k">입당예배 상영용</span>
+      <span class="show-t">공사 이야기 슬라이드쇼 보기 →</span>
+    </a>
+  </div>
+</section>
+
 <footer>
   <div class="wrap">
     <div class="verse">There's a place for you here.<br>당신을 위해 준비된 공간</div>
@@ -126,52 +168,8 @@
   <div class="cap"></div>
 </div>
 
+<script src="data.js"></script>
 <script>
-/* ───────── 날짜별 사진 데이터 ─────────
-   새 날짜는 이 목록 맨 아래에 추가합니다 (오래된 날 → 최근 날 순서).
-   rows: 한 줄에 함께 놓을 사진 묶음. [파일, 가로, 세로, 설명]          */
-const UPDATES = [
-  { date: "2026-10-07", note: "벽체 골조·석고보드 시공 등 기초 목공사",
-    rooms: [
-      { name: "기초 목공사", rows: [
-        [["images/2026-10-07/01.jpg",832,1800,"벽체 골조 제작 작업"], ["images/2026-10-07/06.jpg",832,1800,"계단실 현장 점검"]],
-        [["images/2026-10-07/02.jpg",1800,832,"목재 골조 설치"], ["images/2026-10-07/03.jpg",1800,832,"석고보드 벽체 시공"]],
-        [["images/2026-10-07/04.jpg",1800,832,"벽면 각재 작업"], ["images/2026-10-07/05.jpg",1800,832,"벤치 철골 프레임 설치"]] ]}
-    ]},
-  { date: "2026-10-23", note: "공간별 마감 진행 및 외부 사인물 설치",
-    rooms: [
-      { name: "나주숲교회 외부 사인물", rows: [
-        [["images/s1.jpg",1079,1011,"건물 전경과 외부 사인물"], ["images/s3.jpg",832,1800,"출입문 사인 — Everyone is Welcome Here"]],
-        [["images/s2.jpg",1800,832,"건물 측면 사인물 설치 작업"], ["images/11.jpg",1800,832,"사인물 패널 설치 현장"]] ]},
-      { name: "자모실", rows: [
-        [["images/01.jpg",1800,832,"자모실 1"], ["images/04.jpg",1800,832,"자모실 2"]],
-        [["images/02.jpg",832,1800,"자모실 3"], ["images/03.jpg",832,1800,"자모실 4"]] ]},
-      { name: "교역자실 · 직무실", rows: [
-        [["images/05.jpg",1800,832,"교역자실 · 직무실 1"], ["images/06.jpg",1800,832,"교역자실 · 직무실 2"]],
-        [["images/07.jpg",1800,832,"교역자실 · 직무실 3"], ["images/08.jpg",1800,832,"교역자실 · 직무실 4"]] ]},
-      { name: "교육부실", rows: [
-        [["images/09.jpg",1800,832,"교육부실 1"], ["images/10.jpg",1800,832,"교육부실 2"]] ]}
-    ]},
-  { date: "2026-10-26", note: "천장형 에어컨 분해 세척 및 시운전",
-    rooms: [
-      { name: "에어컨 청소", rows: [
-        [["images/2026-10-26/01.jpg",832,1800,"실내기 분해 후 세척 커버 설치"], ["images/2026-10-26/02.jpg",832,1800,"고압 세척 작업"], ["images/2026-10-26/03.jpg",832,1800,"청소 후 재조립한 실내기"]],
-        [["images/2026-10-26/04.jpg",832,1800,"온도조절기 냉방 시운전"], ["images/2026-10-26/06.jpg",832,1800,"청소 완료 후 예배 공간"]],
-        [["images/2026-10-26/05.jpg",1800,832,"청소를 마친 천장형 에어컨"]] ]}
-    ]},
-  { date: "2026-10-27", note: "벽면·벤치 마감 보수 작업",
-    rooms: [
-      { name: "27일차 마감작업(페인트 외)", rows: [
-        [["images/2026-10-27/02.jpg",1800,832,"벤치 하부 마감 작업"]],
-        [["images/2026-10-27/01.jpg",832,1800,"입구 벽면 설비 주변 마감 작업"]] ]}
-    ]},
-  { date: "2026-10-28", note: "로비·사무공간 마감 작업",
-    rooms: [
-      { name: "오늘도 마감중 _ 정남성도님은 오늘도 열일 중", rows: [
-        [["images/2026-10-28/01.jpg",832,1800,"분전반 커버 도장 작업"], ["images/2026-10-28/03.jpg",832,1800,"원목 카운터 마감 작업"]],
-        [["images/2026-10-28/02.jpg",1800,832,"로비 쪽 도장 마감 작업"], ["images/2026-10-28/04.jpg",1800,832,"로비 전경과 마감 작업"]] ]}
-    ]}
-];
 
 const WD = ["일","월","화","수","목","금","토"];
 const fmt = (iso, long) => { const [y,m,d] = iso.split("-").map(Number); const w = WD[new Date(y,m-1,d).getDay()];
@@ -224,6 +222,17 @@ lb.querySelector('.next').onclick=e=>{e.stopPropagation();show(i+1)};
 lb.addEventListener('click',e=>{if(e.target===lb)lb.classList.remove('open')});
 document.addEventListener('keydown',e=>{if(!lb.classList.contains('open'))return;
   if(e.key==='Escape')lb.classList.remove('open');if(e.key==='ArrowLeft')show(i-1);if(e.key==='ArrowRight')show(i+1)});
+const hl = document.getElementById("hands");
+HANDS.forEach(h => {
+  const el = document.createElement("article"); el.className = "hand";
+  el.innerHTML = `<img src="${h.photo[0]}" alt="${h.name}" loading="lazy">
+    <div class="hand-body"><div class="hand-name">${h.name}</div><div class="hand-role">${h.role}</div>
+    ${h.note?`<div class="hand-note">${h.note}</div>`:""}
+    <div class="hand-dates">${h.dates.map(d=>`<a href="#${d}" data-d="${d}">${fmt(d)}</a>`).join("")}</div></div>`;
+  el.querySelector("img").addEventListener("click", () => { img.src = h.photo[0]; cap.textContent = h.name + " · " + h.role; lb.classList.add("open"); });
+  el.querySelectorAll("[data-d]").forEach(a => a.addEventListener("click", e => { e.preventDefault(); render(a.dataset.d, true); }));
+  hl.appendChild(el);
+});
 let sx=0;lb.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
 lb.addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-sx;if(Math.abs(d)>50)show(d<0?i+1:i-1)});
 </script>

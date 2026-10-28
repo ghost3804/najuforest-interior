@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>나주숲교회 입당 슬라이드</title>
+<meta name="description" content="나주숲교회 입당예배 상영용 공사 이야기 슬라이드쇼">
+<meta property="og:title" content="나주숲교회 입당 슬라이드">
+<meta property="og:image" content="images/s1.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* 상영용: 어두운 화면 한 가지로 고정 — 예배당 프로젝터 기준 */
+  :root{
+    --bg:#0c110e; --ink:#f1ede4; --muted:#a8b2ab; --forest:#8fcab3; --accent:#d9b07a; --panel:rgba(12,17,14,.72);
+    --serif:"Gowun Batang",serif; --sans:"Noto Sans KR",system-ui,sans-serif;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);overflow:hidden}
+  body.hide-cursor{cursor:none}
+
+  .stage{position:fixed;inset:0;overflow:hidden;background:var(--bg)}
+  .layer{position:absolute;inset:0;opacity:0;transition:opacity 1.6s ease}
+  .layer.on{opacity:1}
+  .layer .bgblur{position:absolute;inset:-60px;background-size:cover;background-position:center;filter:blur(40px) brightness(.45) saturate(1.1)}
+  .layer .photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform-origin:center}
+  .layer .photo.contain{object-fit:contain}
+  @keyframes kbA{from{transform:scale(1.02) translate(0,0)}to{transform:scale(1.10) translate(-1.5%,-1%)}}
+  @keyframes kbB{from{transform:scale(1.10) translate(1.2%,0)}to{transform:scale(1.02) translate(-.5%,.8%)}}
+  @keyframes kbC{from{transform:scale(1.0)}to{transform:scale(1.06)}}
+  .layer .shade{position:absolute;inset:auto 0 0 0;height:38%;background:linear-gradient(to top,rgba(8,12,10,.78),transparent)}
+  .cap{position:absolute;left:clamp(20px,5vw,72px);bottom:clamp(20px,6vh,64px);right:clamp(20px,5vw,72px);
+    display:flex;flex-direction:column;gap:4px;text-shadow:0 2px 12px rgba(0,0,0,.6)}
+  .cap .d{font-size:clamp(13px,1.5vw,20px);letter-spacing:.08em;color:var(--accent);font-weight:500}
+  .cap .t{font-family:var(--serif);font-size:clamp(20px,2.8vw,40px);font-weight:700;line-height:1.3}
+
+  .card{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:6vh 8vw;gap:clamp(10px,2vh,22px);
+    background:radial-gradient(ellipse at 50% 40%,#18241d 0%,var(--bg) 70%)}
+  .card .k{font-size:clamp(13px,1.6vw,22px);letter-spacing:.32em;color:var(--forest);font-weight:500;text-transform:uppercase}
+  .card .h{font-family:var(--serif);font-weight:700;font-size:clamp(32px,6vw,92px);line-height:1.2;text-wrap:balance}
+  .card .s{font-family:var(--serif);font-size:clamp(16px,2.2vw,32px);color:var(--muted);line-height:1.6;text-wrap:balance}
+  .card .rule{width:56px;height:2px;background:var(--accent);opacity:.8}
+  .card .names{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 28px;font-family:var(--serif);
+    font-size:clamp(20px,3vw,44px);font-weight:700}
+  .card .names span small{display:block;font-family:var(--sans);font-size:.42em;font-weight:400;color:var(--muted);letter-spacing:.04em}
+  .card .verse{font-family:var(--serif);font-size:clamp(20px,3vw,44px);line-height:1.6;max-width:22em;text-wrap:balance}
+  .card .ref{font-size:clamp(13px,1.5vw,20px);color:var(--accent);letter-spacing:.1em}
+  .layer.on .card > *{animation:rise 1.8s ease both}
+  .layer.on .card > *:nth-child(2){animation-delay:.25s}
+  .layer.on .card > *:nth-child(3){animation-delay:.5s}
+  .layer.on .card > *:nth-child(4){animation-delay:.75s}
+  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+  .progress{position:fixed;left:0;bottom:0;height:3px;background:var(--forest);opacity:.55;width:0;transition:width .4s linear;z-index:5}
+
+  /* 시작 화면 */
+  .start{position:fixed;inset:0;z-index:10;display:flex;align-items:flex-start;justify-content:center;
+    padding-block:24px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+    background:radial-gradient(ellipse at 50% 30%,#1a2820 0%,var(--bg) 75%);overflow:auto}
+  .start[hidden]{display:none!important}
+  .panel{margin:auto 0;width:min(560px,100%);display:flex;flex-direction:column;gap:22px}
+  .panel .k{font-size:13px;letter-spacing:.28em;color:var(--forest);font-weight:500}
+  .panel h1{font-family:var(--serif);font-size:clamp(30px,6vw,48px);margin:0;line-height:1.25}
+  .panel p{margin:0;color:var(--muted);line-height:1.7}
+  .meta{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .meta b{color:var(--ink);font-weight:500}
+  fieldset{border:1px solid rgba(241,237,228,.14);border-radius:14px;padding:14px 16px;margin:0;display:flex;flex-direction:column;gap:10px}
+  legend{padding:0 6px;font-size:13px;color:var(--accent);letter-spacing:.06em}
+  label{display:flex;align-items:center;gap:10px;font-size:15px;cursor:pointer}
+  input[type=radio],input[type=checkbox]{accent-color:var(--forest);width:18px;height:18px}
+  .file-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding-left:28px;font-size:13px;color:var(--muted)}
+  .file-row input{font-size:13px;color:var(--muted);max-width:100%}
+  .row{display:flex;flex-wrap:wrap;gap:10px}
+  button{font:inherit;cursor:pointer;border-radius:999px;border:1px solid rgba(241,237,228,.2);background:transparent;color:var(--ink);padding:10px 18px}
+  button.go{background:var(--forest);border-color:var(--forest);color:#0c110e;font-weight:700;font-size:17px;padding:14px 28px}
+  button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+  .keys{font-size:13px;color:var(--muted);line-height:1.9}
+  .keys kbd{font-family:var(--sans);border:1px solid rgba(241,237,228,.2);border-radius:5px;padding:0 6px;font-size:12px;color:var(--ink)}
+  a.back{color:var(--forest);font-size:14px}
+
+  .hud{position:fixed;top:max(14px,env(safe-area-inset-top,0px));right:max(14px,env(safe-area-inset-right,0px));z-index:6;display:flex;gap:8px;
+    opacity:0;transition:opacity .4s}
+  body.show-hud .hud{opacity:1}
+  .hud button{background:var(--panel);backdrop-filter:blur(6px);padding:8px 14px;font-size:14px}
+  .toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:7;background:var(--panel);padding:10px 20px;border-radius:999px;
+    font-size:16px;opacity:0;transition:opacity .3s;pointer-events:none}
+  .toast.on{opacity:1}
+
+  @media (prefers-reduced-motion:reduce){.layer .photo{animation:none!important}.layer.on .card > *{animation:none}}
+</style>
+</head>
+<body>
+
+<div class="stage" id="stage"></div>
+<div class="progress" id="progress"></div>
+
+<div class="hud" id="hud">
+  <button id="hPause" type="button">일시정지</button>
+  <button id="hMute" type="button">음악 끄기</button>
+  <button id="hFs" type="button">전체화면</button>
+  <button id="hExit" type="button">처음으로</button>
+</div>
+<div class="toast" id="toast"></div>
+
+<section class="start" id="start">
+  <div class="panel">
+    <span class="k">NAJU FOREST CHURCH</span>
+    <h1>입당예배 슬라이드</h1>
+    <p>골조를 세우던 날부터 마감까지, 우리 교회 공간이 지어진 이야기를 잔잔한 음악과 함께 보여 드립니다.</p>
+    <div class="meta" id="meta"></div>
+
+    <fieldset>
+      <legend>배경 음악</legend>
+      <label id="optFileLabel" hidden><input type="radio" name="music" value="repo"> 준비된 음악 파일 (music.mp3)</label>
+      <label><input type="radio" name="music" value="piano" checked> 잔잔한 피아노 (자동 연주)</label>
+      <label><input type="radio" name="music" value="local"> 내 컴퓨터의 음악 파일</label>
+      <div class="file-row"><input type="file" id="musicFile" accept="audio/*"><span id="fileName"></span></div>
+      <label><input type="radio" name="music" value="none"> 음악 없이</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>재생 설정</legend>
+      <label><input type="checkbox" id="loop" checked> 끝나면 처음부터 반복</label>
+      <label><input type="checkbox" id="fs" checked> 시작할 때 전체화면</label>
+    </fieldset>
+
+    <div class="row">
+      <button class="go" id="go" type="button">▶ 상영 시작</button>
+      <button id="test" type="button">음악 미리 듣기</button>
+    </div>
+    <div class="keys">
+      <kbd>Space</kbd> 일시정지 · <kbd>←</kbd><kbd>→</kbd> 이전/다음 · <kbd>M</kbd> 음악 끄기/켜기 · <kbd>F</kbd> 전체화면 · <kbd>Esc</kbd> 처음 화면
+    </div>
+    <a class="back" href="index.html">← 인테리어 현황 페이지로</a>
+  </div>
+</section>
+
+<script src="data.js"></script>
+<script>
+/* ───────── 타이밍(초) ───────── */
+const T = { title: 8, chapter: 5, photo: 6.5, hands: 9, verse: 10, end: 9 };
+
+/* ───────── 슬라이드 목록 만들기 ───────── */
+const WD = ["일","월","화","수","목","금","토"];
+const md = iso => { const [y,m,d] = iso.split("-").map(Number); return `${m}월 ${d}일 (${WD[new Date(y,m-1,d).getDay()]})`; };
+const slides = [];
+slides.push({ kind:"card", dur:T.title, html:`
+  <div class="k">나주숲교회 입당예배</div>
+  <div class="h">당신을 위해<br>준비된 공간</div>
+  <div class="rule"></div>
+  <div class="s">There's a place for you here.</div>` });
+UPDATES.forEach(u => {
+  const names = u.rooms.map(r => r.name).join(" · ");
+  slides.push({ kind:"card", dur:T.chapter, html:`
+    <div class="k">${md(u.date)}</div>
+    <div class="h" style="font-size:clamp(28px,4.6vw,72px)">${names}</div>
+    ${u.note ? `<div class="s">${u.note}</div>` : ""}` });
+  u.rooms.forEach(r => r.rows.flat().forEach(([src,w,h,alt]) =>
+    slides.push({ kind:"photo", dur:T.photo, src, tall: h > w * 1.1, date: md(u.date), caption: alt })));
+});
+if (typeof HANDS !== "undefined" && HANDS.length) {
+  slides.push({ kind:"card", dur:T.hands, html:`
+    <div class="k">Thanks to</div>
+    <div class="h" style="font-size:clamp(28px,4.6vw,68px)">함께 세워 가는 손길</div>
+    <div class="names">${HANDS.map(h=>`<span>${h.name}<small>${h.role}</small></span>`).join("")}</div>
+    <div class="s">그리고 기도와 마음으로 함께해 주신 모든 성도님들</div>` });
+}
+slides.push({ kind:"card", dur:T.verse, html:`
+  <div class="k">Matthew 11:28</div>
+  <div class="verse">수고하고 무거운 짐 진 자들아<br>다 내게로 오라<br>내가 너희를 쉬게 하리라</div>
+  <div class="ref">마태복음 11장 28절</div>` });
+slides.push({ kind:"card", dur:T.end, html:`
+  <div class="k">Naju Forest Church</div>
+  <div class="h">나주숲교회</div>
+  <div class="rule"></div>
+  <div class="s">입당을 감사드립니다</div>` });
+
+const total = slides.reduce((a,s)=>a+s.dur,0);
+const photoCount = slides.filter(s=>s.kind==="photo").length;
+document.getElementById("meta").innerHTML =
+  `<span>사진 <b>${photoCount}장</b></span><span>날짜 <b>${UPDATES.length}일</b></span><span>상영 시간 <b>약 ${Math.floor(total/60)}분 ${Math.round(total%60)}초</b></span>`;
+
+/* 미리 불러오기 */
+slides.filter(s=>s.kind==="photo").forEach(s => { const i = new Image(); i.src = s.src; });
+
+/* ───────── 화면 전환 ───────── */
+const stage = document.getElementById("stage"), prog = document.getElementById("progress");
+let idx = -1, timer = null, paused = false, remain = 0, startedAt = 0, kb = 0, running = false;
+
+function makeLayer(s){
+  const L = document.createElement("div"); L.className = "layer";
+  if (s.kind === "photo") {
+    const anim = ["kbA","kbB","kbC"][kb++ % 3];
+    const dur = s.dur + 2;
+    L.innerHTML = (s.tall ? `<div class="bgblur" style="background-image:url('${s.src}')"></div>` : "") +
+      `<img class="photo${s.tall?" contain":""}" src="${s.src}" alt="" style="animation:${s.tall?"kbC":anim} ${dur}s ease-in-out both">` +
+      `<div class="shade"></div><div class="cap"><span class="d">${s.date}</span><span class="t">${s.caption}</span></div>`;
+  } else {
+    L.innerHTML = `<div class="card">${s.html}</div>`;
+  }
+  return L;
+}
+function go(n){
+  if (n >= slides.length) {
+    if (document.getElementById("loop").checked) { music.restartSoon(); n = 0; }
+    else { music.fadeOut(5); stop(); return; }
+  }
+  if (n < 0) n = slides.length - 1;
+  idx = n;
+  const s = slides[idx], L = makeLayer(s);
+  stage.appendChild(L);
+  requestAnimationFrame(() => requestAnimationFrame(() => L.classList.add("on")));
+  [...stage.children].slice(0,-1).forEach(old => { old.classList.remove("on"); setTimeout(()=>old.remove(), 1800); });
+  if (idx === slides.length - 1 && !document.getElementById("loop").checked) music.fadeOut(s.dur);
+  const elapsed = slides.slice(0,idx).reduce((a,x)=>a+x.dur,0);
+  prog.style.width = (elapsed/total*100) + "%";
+  schedule(s.dur);
+}
+function schedule(sec){
+  clearTimeout(timer); remain = sec; startedAt = performance.now();
+  if (!paused) timer = setTimeout(() => go(idx+1), sec*1000);
+}
+function togglePause(){
+  if (!running) return;
+  paused = !paused;
+  if (paused) { clearTimeout(timer); remain -= (performance.now()-startedAt)/1000; music.pause(); toast("일시정지"); }
+  else { startedAt = performance.now(); timer = setTimeout(() => go(idx+1), Math.max(remain,0.5)*1000); music.resume(); toast("다시 재생"); }
+  document.getElementById("hPause").textContent = paused ? "다시 재생" : "일시정지";
+  document.querySelectorAll(".layer .photo").forEach(p => p.style.animationPlayState = paused ? "paused" : "running");
+}
+function stop(){
+  running = false; clearTimeout(timer); paused = false;
+  document.getElementById("start").hidden = false;
+  stage.innerHTML = ""; prog.style.width = "0";
+  document.body.classList.remove("hide-cursor","show-hud");
+}
+
+/* ───────── 음악 ───────── */
+const music = (() => {
+  let ctx, master, mode = "none", audio, sched, nextTime = 0, step = 0, muted = false, wantVol = .5;
+  // 잔잔한 피아노: I – V/7 – vi – iii – IV – I/3 – ii7 – V (D장조)
+  const prog = [
+    [50,57,62,66,69],[49,57,61,64,69],[47,54,59,62,66],[46,54,57,61,66],
+    [43,55,59,62,67],[42,54,57,62,66],[40,52,57,61,64],[45,52,57,61,64]
+  ];
+  const hz = m => 440 * Math.pow(2,(m-69)/12);
+  function ensureCtx(){
+    if (ctx) return;
+    ctx = new (window.AudioContext||window.webkitAudioContext)();
+    master = ctx.createGain(); master.gain.value = 0; master.connect(ctx.destination);
+    // 공간감(리버브)
+    const len = ctx.sampleRate * 4.5, ir = ctx.createBuffer(2,len,ctx.sampleRate);
+    for (let c=0;c<2;c++){ const d=ir.getChannelData(c); for(let i=0;i<len;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/len,3.2); }
+    music.rev = ctx.createConvolver(); music.rev.buffer = ir;
+    const wet = ctx.createGain(); wet.gain.value = .55; music.rev.connect(wet); wet.connect(master);
+    music.dry = ctx.createGain(); music.dry.gain.value = .7; music.dry.connect(master);
+  }
+  function note(m, t, vel, len=4){
+    const f = hz(m), g = ctx.createGain(), lp = ctx.createBiquadFilter();
+    lp.type = "lowpass"; lp.frequency.setValueAtTime(2600, t); lp.frequency.exponentialRampToValueAtTime(900, t+len);
+    [[1,"sine",1],[2,"sine",.28],[3,"triangle",.08],[4,"sine",.05]].forEach(([mul,type,amp]) => {
+      const o = ctx.createOscillator(), og = ctx.createGain();
+      o.type = type; o.frequency.value = f*mul; o.detune.value = (Math.random()-.5)*4;
+      og.gain.value = amp; o.connect(og); og.connect(lp); o.start(t); o.stop(t+len+.1);
+    });
+    g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vel,t+.012);
+    g.gain.exponentialRampToValueAtTime(vel*.35,t+.6); g.gain.exponentialRampToValueAtTime(.0001,t+len);
+    lp.connect(g); g.connect(music.dry); g.connect(music.rev);
+  }
+  function pad(ch, t, len){
+    const g = ctx.createGain(), lp = ctx.createBiquadFilter(); lp.type="lowpass"; lp.frequency.value = 520;
+    g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(.035,t+len*.4); g.gain.linearRampToValueAtTime(0,t+len+.8);
+    ch.slice(0,3).forEach(m => [-6,6].forEach(dt => {
+      const o = ctx.createOscillator(); o.type="sawtooth"; o.frequency.value = hz(m); o.detune.value = dt;
+      o.connect(lp); o.start(t); o.stop(t+len+1);
+    }));
+    lp.connect(g); g.connect(music.rev); g.connect(music.dry);
+  }
+  const beat = 60/62; // 템포 62
+  function bar(t){
+    const ch = prog[step % prog.length], upper = ch.slice(2).map(m=>m+12);
+    pad(ch, t, beat*4);
+    note(ch[0], t, .32, 5.5);            // 베이스
+    const pattern = [[0,0],[1,1],[1.5,2],[2,1],[3,0],[3.5,2]];
+    pattern.forEach(([b,k],i) => { if (i>0 && Math.random()<.18) return;
+      note(upper[k] + (Math.random()<.12?12:0), t+b*beat+(Math.random()-.5)*.02, .16+Math.random()*.06, 4.5); });
+    if (step % 2 === 1) note(upper[2]+12, t+2.5*beat, .09, 5);
+    step++;
+  }
+  function loop(){ while (nextTime < ctx.currentTime + 1.5) { bar(nextTime); nextTime += beat*4; } }
+  return {
+    async start(sel, file){
+      mode = sel; muted = false;
+      if (mode === "none") return;
+      if (mode === "piano") {
+        ensureCtx(); await ctx.resume();
+        master.gain.cancelScheduledValues(ctx.currentTime);
+        master.gain.setValueAtTime(0, ctx.currentTime); master.gain.linearRampToValueAtTime(wantVol, ctx.currentTime+4);
+        step = 0; nextTime = ctx.currentTime + .2; clearInterval(sched); loop(); sched = setInterval(loop, 250);
+      } else {
+        if (!audio) { audio = new Audio(); audio.loop = true; }
+        audio.src = mode === "repo" ? "music.mp3" : URL.createObjectURL(file);
+        audio.volume = 0; await audio.play().catch(()=>{});
+        fadeAudio(.85, 3);
+      }
+    },
+    pause(){ if (mode==="piano" && ctx) ctx.suspend(); if (audio && mode!=="piano") audio.pause(); },
+    resume(){ if (mode==="piano" && ctx) ctx.resume(); if (audio && mode!=="piano" && !muted) audio.play(); },
+    toggleMute(){
+      if (mode==="none") return false; muted = !muted;
+      if (mode==="piano") { master.gain.cancelScheduledValues(ctx.currentTime); master.gain.setTargetAtTime(muted?0:wantVol, ctx.currentTime, .4); }
+      else fadeAudio(muted?0:.85, .8);
+      return muted;
+    },
+    fadeOut(sec){
+      if (mode==="piano" && ctx) { master.gain.cancelScheduledValues(ctx.currentTime); master.gain.setValueAtTime(master.gain.value, ctx.currentTime); master.gain.linearRampToValueAtTime(0, ctx.currentTime+sec); setTimeout(()=>clearInterval(sched), sec*1000+500); }
+      else if (audio) fadeAudio(0, sec);
+    },
+    restartSoon(){ /* 반복 재생 시 음악은 그대로 이어집니다 */ },
+    stopAll(){ clearInterval(sched); if (ctx) ctx.suspend(); if (audio) audio.pause(); },
+    get muted(){ return muted; }
+  };
+  function fadeAudio(to, sec){
+    const from = audio.volume, t0 = performance.now();
+    const tick = () => { const k = Math.min(1,(performance.now()-t0)/(sec*1000)); audio.volume = from+(to-from)*k;
+      if (k<1) requestAnimationFrame(tick); else if (to===0) audio.pause(); };
+    if (to>0 && audio.paused) audio.play().catch(()=>{});
+    tick();
+  }
+})();
+
+/* 저장소에 music.mp3 가 있으면 선택지로 보여 줍니다 */
+fetch("music.mp3", { method:"HEAD" }).then(r => { if (r.ok && /audio|mpeg/.test(r.headers.get("content-type")||"")) {
+  const l = document.getElementById("optFileLabel"); l.hidden = false; l.querySelector("input").checked = true; } }).catch(()=>{});
+
+/* ───────── 조작 ───────── */
+const $ = id => document.getElementById(id);
+const fileIn = $("musicFile");
+fileIn.addEventListener("change", () => { if (fileIn.files[0]) { $("fileName").textContent = ""; document.querySelector('input[value="local"]').checked = true; } });
+function pickedMusic(){
+  const v = document.querySelector('input[name="music"]:checked').value;
+  if (v === "local" && !fileIn.files[0]) { toast("음악 파일을 먼저 선택해 주세요"); return null; }
+  return v;
+}
+let testing = false;
+$("test").addEventListener("click", async () => {
+  if (testing) { music.stopAll(); testing = false; $("test").textContent = "음악 미리 듣기"; return; }
+  const v = pickedMusic(); if (!v || v==="none") return;
+  await music.start(v, fileIn.files[0]); testing = true; $("test").textContent = "미리 듣기 멈춤";
+});
+$("go").addEventListener("click", async () => {
+  const v = pickedMusic(); if (!v) return;
+  if (testing) { music.stopAll(); testing = false; $("test").textContent = "음악 미리 듣기"; }
+  if ($("fs").checked && document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(()=>{});
+  $("start").hidden = true; running = true; paused = false; kb = 0;
+  await music.start(v, fileIn.files[0]);
+  go(0); wakeCursor();
+});
+function toggleFs(){ if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen?.().catch(()=>{}); }
+function exit(){ music.stopAll(); if (document.fullscreenElement) document.exitFullscreen().catch(()=>{}); stop(); }
+$("hPause").onclick = togglePause;
+$("hMute").onclick = () => { const m = music.toggleMute(); $("hMute").textContent = m ? "음악 켜기" : "음악 끄기"; };
+$("hFs").onclick = toggleFs;
+$("hExit").onclick = exit;
+document.addEventListener("keydown", e => {
+  if (!running) return;
+  if (e.key === " ") { e.preventDefault(); togglePause(); }
+  else if (e.key === "ArrowRight") go(idx+1);
+  else if (e.key === "ArrowLeft") go(idx-1);
+  else if (e.key.toLowerCase() === "m") $("hMute").click();
+  else if (e.key.toLowerCase() === "f") toggleFs();
+  else if (e.key === "Escape" && !document.fullscreenElement) exit();
+});
+let curT;
+function wakeCursor(){ document.body.classList.remove("hide-cursor"); document.body.classList.add("show-hud");
+  clearTimeout(curT); curT = setTimeout(()=>{ if (running) document.body.classList.add("hide-cursor"); document.body.classList.remove("show-hud"); }, 2200); }
+document.addEventListener("mousemove", () => running && wakeCursor());
+stage.addEventListener("click", () => running && wakeCursor());
+let tT; function toast(msg){ const t=$("toast"); t.textContent=msg; t.classList.add("on"); clearTimeout(tT); tT=setTimeout(()=>t.classList.remove("on"),1200); }
+try { navigator.wakeLock?.request("screen").catch(()=>{}); } catch(e){}
+document.addEventListener("visibilitychange", () => { if (!document.hidden) { try { navigator.wakeLock?.request("screen").catch(()=>{}); } catch(e){} } });
+</script>
+</body>
+</html>
